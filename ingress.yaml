@@ -1,0 +1,74 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myapp-ingress
+spec:
+  tls:
+    - hosts:
+      - myapp.com
+      secretName: myapp-secret-tls
+  rules:
+  - host: myapp.com
+    http:
+      paths:
+        - frontend:
+            service:
+              name: vue-app-service
+              port:
+                name: 8080
+          path: /
+          pathType: Exact
+  - host: backend.com
+    http:
+      paths:
+        - backend:
+            service:
+              name: golang-app-service
+              port:
+                name: 2200
+          path: /path
+          pathType: Exact
+
+---
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: myapp-ingress
+# spec:
+#   tls:
+#     - hosts:
+#       - myapp.com
+#       secretName: myapp-secret-tls
+#   rules:
+#   - host: myapp.com
+#     http:
+#       paths:
+#         - frontend:
+#           serviceName: vue-app-service
+#           servicePort: 8080
+#   - host: backend.com
+#     http:
+#       paths:
+#         - backend:
+#           serviceName: golang-app-service
+#           servicePort: 2200
+
+# ---
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: myapp-ingress
+# spec:
+#   rules:
+#   - host: myapp.com
+#     http:
+#       paths:
+#         - path: /frontend
+#           frontend:
+#           serviceName: vue-app-service
+#           servicePort: 8080
+
+#         - path: /backend
+#           frontend:
+#           serviceName: golang-app-service
+#           servicePort: 2200
